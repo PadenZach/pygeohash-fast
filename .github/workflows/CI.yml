@@ -15,17 +15,7 @@ jobs:
         python -m venv .venv
         source .venv/bin/activate
         pip install -r dev_requirements.txt
-    - name: "Setup Project for tests"
-      uses: messense/maturin-action@v1
-      with:
-        manylinux: auto
-        command: develop
-    - name: "Set up python for tests"
-      run: |
-        python -m pip install --upgrade pip
-        pip install pytest
-    - name: "Run Tests"
-      run: |
+        maturin develop
         pytest
 
   linux:
