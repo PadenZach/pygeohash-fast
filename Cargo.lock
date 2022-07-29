@@ -198,6 +198,7 @@ name = "pygeohash-fast"
 version = "0.1.0"
 dependencies = [
  "geohash",
+ "num_cpus",
  "pyo3",
  "rayon",
 ]
