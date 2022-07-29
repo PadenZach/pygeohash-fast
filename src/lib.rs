@@ -71,6 +71,7 @@ fn encode_many_py(xs: Vec<f64>, ys: Vec<f64>, len: usize, num_threads:Option<usi
     );
     return results;
 }
+
 /// A Python module implemented in Rust.
 #[pymodule]
 fn pygeohash_fast(_py: Python, m: &PyModule) -> PyResult<()> {
