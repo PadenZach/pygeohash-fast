@@ -92,11 +92,48 @@ fn decode_py(encoded_geohash:&str) -> PyResult<(f64, f64, f64, f64)> {
         Err(e) => return Err(PyException::new_err(e.to_string()))
     }
 }
+
+/// Decodes a list of geohash strings into a list of x,y (long, lat) pairs.
+///
+/// NOTE: Currently, does not return the lat or lng decode error as the normal
+/// decode function does.
+/// 
+/// Args:
+///     geohashes: List[String] - Geohashes to decode.
+///     num_threads Optional[int]: number of threads to use. Defaults to # of cpus.
+/// Returns:
+///     List[Tuple[float, float]]: List of long, lat pairs..
+#[pyfunction]
+#[pyo3(name = "decode_many")]
+fn decode_many_py(
+    geohashes: Vec<String>,
+    num_threads: Option<usize>,
+) -> Vec<(f64, f64)> {
+    let mut results = Vec::with_capacity(geohashes.capacity());
+
+    create_pool(num_threads.unwrap_or(num_cpus::get_physical()))
+        .unwrap()
+        .install(|| {
+            geohashes.into_par_iter()
+                .map(|hash_str| {
+                    geohash::decode(
+                        &hash_str,
+                    )
+                    .unwrap().0.into()
+                    
+                })
+                .collect_into_vec(&mut results);
+        });
+    return results;
+}
+
+ 
 /// A Python module implemented in Rust.
 #[pymodule]
 fn pygeohash_fast(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(encode_py, m)?)?;
     m.add_function(wrap_pyfunction!(encode_many_py, m)?)?;
     m.add_function(wrap_pyfunction!(decode_py, m)?)?;
+    m.add_function(wrap_pyfunction!(decode_many_py, m)?)?;
     Ok(())
 }
