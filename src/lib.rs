@@ -1,5 +1,5 @@
 use geohash::encode;
-use geohash::Coordinate;
+use geo::Coord;
 use pyo3::exceptions::PyException;
 use pyo3::prelude::*;
 use rayon::prelude::*;
@@ -33,7 +33,7 @@ pub fn create_pool(num_threads: usize) -> Result<rayon::ThreadPool, ThreadPoolBu
 #[pyfunction]
 #[pyo3(name = "encode")]
 fn encode_py(lng: f64, lat: f64, len: usize) -> PyResult<String> {
-    match encode(Coordinate { x: lng, y: lat }, len) {
+    match encode(Coord { x: lng, y: lat }, len) {
         Ok(geohash) => Ok(geohash),
         Err(e) => Err(PyException::new_err(e.to_string())),
     }
@@ -65,7 +65,7 @@ fn encode_many_py(
                 .zip_eq(lats)
                 .map(|xy| {
                     encode(
-                        Coordinate {
+                        Coord {
                             x: (xy.0),
                             y: (xy.1),
                         },
