@@ -14,3 +14,6 @@ rayon = "^1.5"
 geohash = "^0.12.0"
 num_cpus = "^1.13"
 geo = "0.23.1"
+
+[dev-dependencies]
+criterion = "0.4.0"
