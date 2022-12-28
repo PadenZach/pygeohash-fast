@@ -36,3 +36,9 @@ In [22]: %%timeit
 ```
 
 So for simple geohash encoding this library is ~69x times faster, nice.
+
+## Developing:
+1. Create your venv `python3 -m venv .venv`
+2. Activate it `source .venv/bin/activate`
+3. install dev requirements `pip install -r dev_requirements.txt`
+4. Get a python dev version installed with `maturin develop`
