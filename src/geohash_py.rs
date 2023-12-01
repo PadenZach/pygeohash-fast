@@ -24,8 +24,8 @@ pub fn create_pool(num_threads: usize) -> Result<rayon::ThreadPool, ThreadPoolBu
 /// Encodes x and y coordinates to a geohash of len precision.
 ///
 /// Args:
-///     lng (float): The X coordinate or "Latitude".
-///     lat (float): The Y coordinate, or "longitude".
+///     lng (float): The X coordinate or "Longitude".
+///     lat (float): The Y coordinate, or "Latitude".
 ///     len (int): The length of geohash.
 ///
 ///  Returns:
@@ -42,8 +42,8 @@ fn encode_py(lng: f64, lat: f64, len: usize) -> PyResult<String> {
 /// Encodes a list of lngs and lats into a list of geohashes of length len.
 ///
 /// Args:
-///     lngs (List[float]): List of X/Lat values.
-///     lats (List[float]): List of Y/Lng values.
+///     lngs (List[float]): List of X/Lng values.
+///     lats (List[float]): List of Y/Lat values.
 ///     len (int): Length of encoded geohashes desired.
 ///     num_threads Optional[int]: number of threads to use. Defaults to # of cpus.
 /// Returns:
